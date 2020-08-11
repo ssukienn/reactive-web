@@ -20,4 +20,11 @@ public class PassthroughController {
                 passthroughHandler.handlePassthrough(message)
         );
     }
+
+    @RequestMapping("/passthrough/messages/multiple")
+    public ResponseEntity<MessageAck[]> handlePassthroughMultiple(@RequestBody Message message) {
+        return ResponseEntity.ok(
+                passthroughHandler.handlePassthroughMultiple(message)
+        );
+    }
 }

@@ -9,7 +9,7 @@ import io.gatling.http.protocol.HttpProtocolBuilder
 
 import scala.concurrent.duration._
 
-class BootLoadSimulation extends Simulation {
+class LoadSimulation extends Simulation {
 
   val baseUrl: String = System.getProperty("TARGET_URL")
   val sim_users: Int = System.getProperty("SIM_USERS").toInt

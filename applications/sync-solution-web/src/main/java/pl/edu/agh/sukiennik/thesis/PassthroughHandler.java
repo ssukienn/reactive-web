@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @Component
 public class PassthroughHandler {
 
@@ -24,6 +26,11 @@ public class PassthroughHandler {
 
     public MessageAck handlePassthrough(Message message) {
         ResponseEntity<MessageAck> responseEntity = this.restTemplate.postForEntity(targetHost + "/messages", message, MessageAck.class);
+        return responseEntity.getBody();
+    }
+
+    public MessageAck[] handlePassthroughMultiple(Message message) {
+        ResponseEntity<MessageAck[]> responseEntity = this.restTemplate.postForEntity(targetHost + "/messages/multiple", message, MessageAck[].class);
         return responseEntity.getBody();
     }
 }
