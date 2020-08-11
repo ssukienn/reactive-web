@@ -1,0 +1,5 @@
+include 'applications:reactive-target'
+include 'applications:sync-solution-web'
+include 'applications:reactive-solution-web'
+include 'applications:load-scripts'
+

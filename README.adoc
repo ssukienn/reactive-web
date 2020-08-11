@@ -1,0 +1,66 @@
+= Load Target Service
+
+[source, bash]
+----
+./gradlew -p applications/sample-load-target clean bootRun
+----
+
+= Reactive Solution Web based app:
+
+== Run the Reactive Solution Web based app:
+[source, bash]
+----
+./gradlew -p applications/reactive-Solution-web clean bootRun
+----
+
+== Call target endpoint
+
+[source, bash]
+----
+curl -X "POST" "http://localhost:8082/passthrough/messages" \
+     -H "Accept: application/json" \
+     -H "Content-Type: application/json" \
+     -d $'{
+  "id": "1",
+  "payload": "one",
+  "delay": "1000"
+}'
+----
+
+
+=  Sync Solution Webbased app:
+
+== Run the  Sync Solution Web based app:
+[source, bash]
+----
+./gradlew -p applications/sync-solution-web clean bootRun
+----
+
+== Call target endpoint
+
+[source, bash]
+----
+curl -X "POST" "http://localhost:8081/passthrough/messages" \
+     -H "Accept: application/json" \
+     -H "Content-Type: application/json" \
+     -d $'{
+  "id": "1",
+  "payload": "one",
+  "delay": "1000"
+}'
+----
+
+= Run Load tests
+
+== Against Reactive Solution Web version of the app
+[source, bash]
+----
+./gradlew -p applications/load-scripts  -DTARGET_URL=http://localhost:8082 -DSIM_USERS=300 gatlingRun
+----
+
+== Against Sync Solution Web version of the app
+[source, bash]
+----
+./gradlew -p applications/load-scripts  -DTARGET_URL=http://localhost:8081 -DSIM_USERS=300 gatlingRun
+----
+
