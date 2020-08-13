@@ -55,12 +55,12 @@ curl -X "POST" "http://localhost:8081/passthrough/messages" \
 == Against Reactive Solution Web version of the app
 [source, bash]
 ----
-./gradlew -p applications/load-scripts  -DTARGET_URL=http://localhost:8082 -DSIM_USERS=300 gatlingRun
+./gradlew -p applications/load-scripts  -DTARGET_URL=http://localhost:8082 -DCONC_USERS=300 -DSOLUTION=reactor gatlingRun
 ----
 
 == Against Sync Solution Web version of the app
 [source, bash]
 ----
-./gradlew -p applications/load-scripts  -DTARGET_URL=http://localhost:8081 -DSIM_USERS=300 gatlingRun
+./gradlew -p applications/load-scripts  -DTARGET_URL=http://localhost:8081 -DCONC_USERS=300 -DSOLUTION=reactor gatlingRun
 ----
 
