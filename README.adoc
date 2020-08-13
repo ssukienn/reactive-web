@@ -2,7 +2,7 @@
 
 [source, bash]
 ----
-./gradlew -p applications/sample-load-target clean bootRun
+./gradlew -p applications/reactive-target clean bootRun
 ----
 
 = Reactive Solution Web based app:
@@ -10,7 +10,7 @@
 == Run the Reactive Solution Web based app:
 [source, bash]
 ----
-./gradlew -p applications/reactive-Solution-web clean bootRun
+./gradlew -p applications/reactive-solution-web clean bootRun
 ----
 
 == Call target endpoint
