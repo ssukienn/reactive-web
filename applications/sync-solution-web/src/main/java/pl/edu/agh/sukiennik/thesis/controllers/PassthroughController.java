@@ -1,9 +1,14 @@
-package pl.edu.agh.sukiennik.thesis;
+package pl.edu.agh.sukiennik.thesis.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.edu.agh.sukiennik.thesis.Message;
+import pl.edu.agh.sukiennik.thesis.MessageAck;
+import pl.edu.agh.sukiennik.thesis.services.PassthroughHandler;
+
+import java.util.List;
 
 @RestController
 public class PassthroughController {
@@ -22,7 +27,7 @@ public class PassthroughController {
     }
 
     @RequestMapping("/passthrough/messages/multiple")
-    public ResponseEntity<MessageAck[]> handlePassthroughMultiple(@RequestBody Message message) {
+    public ResponseEntity<List<MessageAck>> handlePassthroughMultiple(@RequestBody Message message) {
         return ResponseEntity.ok(
                 passthroughHandler.handlePassthroughMultiple(message)
         );

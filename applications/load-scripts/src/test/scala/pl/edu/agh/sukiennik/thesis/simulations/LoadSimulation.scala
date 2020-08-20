@@ -109,4 +109,4 @@ class LoadSimulation extends Simulation {
       filterMultipleScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf),
       averageScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf),
       averageMultipleScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf))
-  }
+}

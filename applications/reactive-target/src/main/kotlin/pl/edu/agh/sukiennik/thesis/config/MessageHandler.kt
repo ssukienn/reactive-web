@@ -40,6 +40,5 @@ class MessageHandler {
                     .delaySubscription(Duration.ofMillis(m.delay))
         }
         return ServerResponse.status(HttpStatus.OK).body(ackMessages, MessageAck::class.java)
-
     }
 }
