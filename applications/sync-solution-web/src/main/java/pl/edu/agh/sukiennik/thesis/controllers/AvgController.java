@@ -20,14 +20,14 @@ public class AvgController {
     }
 
     @RequestMapping("/sync/average")
-    public ResponseEntity<MessageAck> handleAvg(@RequestBody Message message) {
+    public ResponseEntity<Integer> handleAvg(@RequestBody Message message) {
         return ResponseEntity.ok(
                 avgHandler.handleAvg(message)
         );
     }
 
     @RequestMapping("/sync/average/multiple")
-    public ResponseEntity<List<MessageAck>> handleAvgMultiple(@RequestBody Message message) {
+    public ResponseEntity<Double> handleAvgMultiple(@RequestBody Message message) {
         return ResponseEntity.ok(
                 avgHandler.handleAvgMultiple(message)
         );

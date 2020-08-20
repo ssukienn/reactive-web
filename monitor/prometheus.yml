@@ -9,9 +9,10 @@ scrape_configs:
     scrape_interval: 5s
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ["192.168.0.164:8080","192.168.0.164:8082"]
+      #- targets: ["192.168.0.164:8080","192.168.0.164:8082"]
+      - targets: ["192.168.0.7:8080","192.168.0.7:8082"]
   - job_name: 'sync-solution-web'
     scrape_interval: 5s
     metrics_path: '/prometheus'
     static_configs:
-      - targets: ["192.168.0.164:8081"]
+      - targets: ["192.168.0.7:8081"]

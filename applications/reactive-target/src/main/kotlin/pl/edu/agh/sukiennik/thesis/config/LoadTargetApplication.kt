@@ -13,7 +13,7 @@ class LoadTargetApplication {
     fun commonTags(): MeterRegistryCustomizer<MeterRegistry> {
         return MeterRegistryCustomizer { registry ->
             registry.config()
-                    .commonTags("application", "sample-load-target")
+                    .commonTags("application", "reactive-target")
         }
     }
 

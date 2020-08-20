@@ -19,37 +19,6 @@ class LoadSimulation extends Simulation {
 
   val headers: Map[String, String] = Map("Accept" -> """application/json""")
 
-  val passThroughPage: ChainBuilder = repeat(30) {
-    exec(http("no-logic")
-      .post("/passthrough/messages")
-      .header("Content-Type", "application/json")
-      .body(StringBody(
-        s"""
-           | {
-           |   "id": "${UUID.randomUUID().toString}",
-           |   "payload": "test payload",
-           |   "delay": 300
-           | }
-        """.stripMargin)))
-      .pause(1 second, 2 seconds)
-  }
-
-  val passThroughMultiplePage: ChainBuilder = repeat(30) {
-    exec(http("no-logic-multiple")
-      .post("/passthrough/messages/multiple")
-      .header("Content-Type", "application/json")
-      .body(StringBody(
-        s"""
-           | {
-           |   "id": "${UUID.randomUUID().toString}",
-           |   "payload": "test payload",
-           |   "delay": 300,
-           |   "size": 500
-           | }
-        """.stripMargin)))
-      .pause(1 second, 2 seconds)
-  }
-
   def endpointPage(pageName: String, pageUrl: String, times: Int,
                    minPause: Duration = 1 second, maxPause: Duration = 2 second,
                    responseDelay: Int = 300, responseSize: Int = 1
@@ -71,42 +40,40 @@ class LoadSimulation extends Simulation {
     }
   }
 
-    val noLogicScn: ScenarioBuilder = scenario("No Logic Page")
-      .exec(endpointPage("no-logic", "/passthrough/messages", 30))
+  val times = 30
+  val responseDelay = 0
+  val responseSize = 10000
 
-    val noLogicMultipleScn: ScenarioBuilder = scenario("No Logic Page Multiple")
-      .exec(endpointPage("no-logic-multiple", "/passthrough/messages/multiple", 30, responseSize = 500))
+  val noLogicScn: ScenarioBuilder = scenario("No Logic Page")
+    .exec(endpointPage("no-logic", "/passthrough/messages", times = times, responseDelay = responseDelay))
+
+  val noLogicMultipleScn: ScenarioBuilder = scenario("No Logic Page Multiple")
+    .exec(endpointPage("no-logic-multiple", "/passthrough/messages/multiple", times = times, responseDelay = responseDelay, responseSize = responseSize))
 
   val mapScn: ScenarioBuilder = scenario("Map Page")
-    .exec(endpointPage("map", s"/${solution}/map", 30))
+    .exec(endpointPage(s"${solution}-map", s"/${solution}/map", times = times, responseDelay = responseDelay))
 
   val mapMultipleScn: ScenarioBuilder = scenario("Map Page Multiple")
-    .exec(endpointPage("map-multiple", s"/${solution}/map/multiple", 30, responseSize = 500))
+    .exec(endpointPage(s"${solution}-map-multiple", s"/${solution}/map/multiple", times = times, responseDelay = responseDelay, responseSize = responseSize))
 
   val filterScn: ScenarioBuilder = scenario("Filter Page")
-    .exec(endpointPage("filter", s"/${solution}/filter", 30))
+    .exec(endpointPage(s"${solution}-filter", s"/${solution}/filter", times = times, responseDelay = responseDelay))
 
   val filterMultipleScn: ScenarioBuilder = scenario("Filter Page Multiple")
-    .exec(endpointPage("filter-multiple", s"/${solution}/filter/multiple", 30, responseSize = 500))
+    .exec(endpointPage(s"${solution}-filter-multiple", s"/${solution}/filter/multiple", times = times, responseDelay = responseDelay, responseSize = responseSize))
 
   val averageScn: ScenarioBuilder = scenario("Avg Page")
-    .exec(endpointPage("average", s"/${solution}/average", 30))
+    .exec(endpointPage(s"${solution}-average", s"/${solution}/average", times = times, responseDelay = responseDelay))
 
   val averageMultipleScn: ScenarioBuilder = scenario("Avg Page Multiple")
-    .exec(endpointPage("average-multiple", s"/${solution}/average/multiple", 30, responseSize = 500))
-  
-  val scn: ScenarioBuilder = scenario("Passthrough Page")
-    .exec(passThroughPage)
+    .exec(endpointPage(s"${solution}-average-multiple", s"/${solution}/average/multiple", times = times, responseDelay = responseDelay, responseSize = responseSize))
 
-  val scnMultiple: ScenarioBuilder = scenario("Passthrough Page Multiple")
-    .exec(passThroughMultiplePage)
-
-    setUp(scn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf),
-      scnMultiple.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf),
-      mapScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf),
-      mapMultipleScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf),
-      filterScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf),
-      filterMultipleScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf),
-      averageScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf),
-      averageMultipleScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf))
+  setUp(
+    mapScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf),
+    mapMultipleScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf)
+    /*filterScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf),
+    filterMultipleScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf),
+    averageScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf),
+    averageMultipleScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf)*/
+  )
 }
