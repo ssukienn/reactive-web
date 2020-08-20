@@ -1,0 +1,10 @@
+{
+  "simulation": "pl.edu.agh.sukiennik.thesis.simulations.LoadSimulation",
+  "simulationId": "loadsimulation",
+  "start": 1597960834704,
+  "description": "",
+  "scenarios": ["No Logic Page"],
+  "assertions": [
+
+  ]
+}

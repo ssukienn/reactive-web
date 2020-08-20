@@ -41,8 +41,8 @@ class LoadSimulation extends Simulation {
   }
 
   val times = 30
-  val responseDelay = 0
-  val responseSize = 10000
+  val responseDelay = 300
+  val responseSize = 5000
 
   val noLogicScn: ScenarioBuilder = scenario("No Logic Page")
     .exec(endpointPage("no-logic", "/passthrough/messages", times = times, responseDelay = responseDelay))
@@ -69,9 +69,11 @@ class LoadSimulation extends Simulation {
     .exec(endpointPage(s"${solution}-average-multiple", s"/${solution}/average/multiple", times = times, responseDelay = responseDelay, responseSize = responseSize))
 
   setUp(
-    mapScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf),
-    mapMultipleScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf)
-    /*filterScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf),
+    noLogicScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf)
+    /*noLogicMultipleScn.inject(rampUsers(concurrentUsers).over(60 seconds)).protocols(httpConf),
+    mapScn.inject(rampUsers(concurrentUsers).over(60 seconds)).protocols(httpConf),
+    mapMultipleScn.inject(rampUsers(concurrentUsers).over(60 seconds)).protocols(httpConf)
+    filterScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf),
     filterMultipleScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf),
     averageScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf),
     averageMultipleScn.inject(rampUsers(concurrentUsers).over(30 seconds)).protocols(httpConf)*/
