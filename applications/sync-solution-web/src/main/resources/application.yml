@@ -5,7 +5,10 @@ loadtarget:
 
 server:
   port: 8081
-  
+  tomcat:
+    max-threads: 10000
+    #max-connections: 50000
+
 management:
   security:
     enabled: false
